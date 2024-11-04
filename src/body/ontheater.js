@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import style from "./style.module.css";
 
 import Favoritos from "../img/heart.svg";
@@ -10,8 +9,8 @@ const privateKey = process.env.REACT_APP_PRIVATE_API_KEY;
 
 export default function OnTheater() {
   const [data, setData] = useState([]);
-  const [details, setDetails] = useState(null);
-  const imageBaseUrl = "https://image.tmdb.org/t/p/w500"; // URL base para as imagens
+  const [selectedMovieId, setSelectedMovieId] = useState(null); 
+  const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
 
   const fetchData = async () => {
     try {
@@ -26,42 +25,21 @@ export default function OnTheater() {
         }
       );
       const result = await response.json();
-      setData(result.results); // Armazena a lista de filmes
-      console.log(result);
+      setData(result.results);
     } catch (error) {
       console.error("Erro ao realizar o fetch", error);
     }
   };
 
-  const fetchMovieDetails = async (id) => {
-    try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
-        {
-          method: "GET",
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            Authorization: `Bearer ${privateKey}`,
-          },
-        }
-      );
-      const result = await response.json();
-      setDetails(result); // Armazena os detalhes do filme
-      console.log(result);
-    } catch (error) {
-      console.error("Erro ao buscar detalhes do filme", error);
-    }
-  };
-
   const scrollCarousel = (direction) => {
     const carousel = document.querySelector(`.${style.carousel}`);
-    const scrollAmount = 300; // Valor de rolagem ajustável
+    const scrollAmount = 300;
     carousel.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
   };
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   return (
     <div className={style.app}>
@@ -75,11 +53,7 @@ export default function OnTheater() {
         </button>
         <div className={style.carousel}>
           {data.map((item) => (
-            <div
-              key={item.id}
-              className={style.carouselItem}
-              onClick={() => fetchMovieDetails(item.id)}
-            >
+            <div key={item.id} className={style.carouselItem}>
               <img
                 src={`${imageBaseUrl}${item.poster_path}`}
                 alt={item.title}
@@ -93,9 +67,12 @@ export default function OnTheater() {
                 <button className={style.iconBtn} title="Favoritos">
                   <img src={Favoritos} alt="Favoritos" />
                 </button>
-
-                <Link to="/Details">
-                  <button className={style.textBtn} title="Detalhes">
+                <Link to={`/details/${item.id}`}>
+                  <button
+                    className={style.textBtn}
+                    title="Detalhes"
+                    onClick={() => setSelectedMovieId(item.id)}
+                  >
                     More
                   </button>
                 </Link>

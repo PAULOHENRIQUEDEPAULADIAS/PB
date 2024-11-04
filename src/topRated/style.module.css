@@ -1,0 +1,149 @@
+.app {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  h1 {
+    padding: 10px;
+  }
+  
+  .carouselContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    position: relative;
+    width: 100%;
+  }
+  
+  .carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 20px;
+    padding: 20px 0;
+    width: 80%;
+    scrollbar-width: none;
+  }
+  
+  .carousel::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .carouselItem {
+    flex: 0 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 15px;
+  }
+  
+  .carouselItem:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 10px 0;
+  }
+  
+  .poster {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .score {
+    font-size: 16px;
+    color: #555;
+    margin: 10px 0;
+  }
+  
+  .scrollButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: background-color 0.3s ease;
+  }
+  
+  .scrollButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .scrollButton:first-of-type {
+    left: 0;
+  }
+  
+  .scrollButton:last-of-type {
+    right: 0;
+  }
+  
+  :root {
+    --btn-bg: #007bff;
+    --btn-bg-hover: #0056b3;
+    --btn-padding: 12px 20px;
+    --btn-radius: 5px;
+    --icon-size: 24px;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  .btns {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+  }
+  
+  .btns > button,
+  .btns > a > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--btn-bg);
+    color: white;
+    border: none;
+    border-radius: var(--btn-radius);
+    padding: var(--btn-padding);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex-shrink: 0;
+  }
+  
+  .btns > button:hover,
+  .btns > a > button:hover {
+    background-color: var(--btn-bg-hover);
+  }
+  
+  .textBtn {
+    padding: var(--btn-padding);
+  }
+  
+  .iconBtn {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+  }
+  
+  .iconBtn img {
+    width: var(--icon-size);
+    height: var(--icon-size);
+  }
+  
