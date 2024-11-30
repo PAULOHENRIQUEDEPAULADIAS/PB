@@ -1,15 +1,44 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 import Nav from "../navbar";
 import Footer from "../footer";
+import styles from "./style.module.css";
+
+import Favoritos from "../img/heart.svg";
+import Eye from "../img/eye.svg";
 
 const privateKey = process.env.REACT_APP_PRIVATE_API_KEY;
 const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
 
 export default function Details() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [movie, setMovie] = useState(null);
+  const [error, setError] = useState(null);
+
+  const [showModal, setShowModal] = useState(false);
+  const [newComment, setNewComment] = useState("");
+  const [comments, setComments] = useState([]);
+
+  const [cast, setCast] = useState([]);
+
+  const [similarMovies, setSimilarMovies] = useState([]);
+  const [data, setData] = useState([]);
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
+
+  
+
+  const handleAddComment = () => {
+    if (newComment.trim()) {
+      setComments((prevComments) => [
+        ...prevComments,
+        { user: "User123", text: newComment.trim() },
+      ]);
+      setNewComment("");
+      setShowModal(false);
+    }
+  };
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -24,32 +53,244 @@ export default function Details() {
             },
           }
         );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch movie details");
+        }
+
         const result = await response.json();
         setMovie(result);
-        console.log(result); 
       } catch (error) {
-        console.error("Error fetching movie details", error);
+        setError(error.message);
       }
     };
 
     fetchMovieDetails();
   }, [id]);
 
-  if (!movie) return <p>Loading...</p>;
+  useEffect(() => {
+    const fetchMovieCredits = async () => {
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`,
+          {
+            headers: {
+              Authorization: `Bearer ${privateKey}`,
+            },
+          }
+        );
+        const result = await response.json();
+        setCast(result.cast.slice(0, 10));
+      } catch (error) {
+        console.error("Error fetching credits:", error);
+      }
+    };
+
+    fetchMovieCredits();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchSimilarMovies = async () => {
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/movie/${id}/similar?language=en-US`,
+          {
+            headers: {
+              Authorization: `Bearer ${privateKey}`,
+            },
+          }
+        );
+        const result = await response.json();
+      
+        setSimilarMovies(result.results.slice(0, 5));
+      } catch (error) {
+        console.error("Error fetching similar movies:", error);
+      }
+    };
+
+    fetchSimilarMovies();
+  }, [id]);
+
+
+  if (error) {
+    return (
+      <div className={styles.errorContainer}>
+        <Nav />
+        <p className={styles.errorMessage}>Error: {error}</p>
+        <button onClick={() => navigate(-1)} className={styles.goBackButton}>
+          Go Back
+        </button>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!movie) {
+    return (
+      <div className={styles.loadingContainer}>
+        <Nav />
+        <p className={styles.loadingMessage}>Loading...</p>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <>
       <Nav />
-      <div>
-        <h2>{movie.title}</h2>
-        <p>{movie.overview || "Overview not available"}</p> 
+      <div className={styles.detailsContainer}>
         {movie.poster_path && (
           <img
             src={`${imageBaseUrl}${movie.poster_path}`}
             alt={movie.title}
-            style={{ width: "300px", height: "auto" }}
+            className={styles.poster}
           />
         )}
+        <div className={styles.infoContainer}>
+          <h2 className={styles.title}>{movie.title}</h2>
+          <p className={styles.overview}>
+            {movie.overview || "Overview not available"}
+          </p>
+          <h4 className={styles.releaseDate}>
+            Release Date:{" "}
+            {movie.release_date
+              ? new Date(movie.release_date).toLocaleDateString("en-GB")
+              : "Not available"}
+          </h4>
+          <p className={styles.genres}>
+            Genres:{" "}
+            {movie.genres?.map((genre) => genre.name).join(", ") ||
+              "Not available"}
+          </p>
+          <p className={styles.rating}>
+            Rating: {movie.vote_average || "N/A"}/10
+          </p>
+          <p className={styles.runtime}>
+            Runtime: {movie.runtime ? `${movie.runtime} min` : "Not available"}
+          </p>
+          <a
+            href={`https://www.youtube.com/results?search_query=${movie.title}+trailer`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.trailerButton}
+          >
+            Watch Trailer on YouTube
+          </a>
+          <button onClick={() => navigate(-1)} className={styles.goBackButton}>
+            Go Back
+          </button>
+        </div>
+
+        <div className={styles.commentsSection}>
+          <h3>Comments</h3>
+          <div className={styles.commentLine}>
+            {comments.length > 0 ? (
+              <p>
+                <strong>{comments[comments.length - 1].user}:</strong>{" "}
+                {comments[comments.length - 1].text}
+              </p>
+            ) : (
+              <p>No comments yet. Be the first to comment!</p>
+            )}
+            <button
+              onClick={() => setShowModal(true)}
+              className={styles.viewCommentsButton}
+            >
+              View/Add Comments
+            </button>
+          </div>
+
+          {showModal && (
+            <div className={styles.modal}>
+              <div className={styles.modalContent}>
+                <h3>All Comments</h3>
+                <div className={styles.commentList}>
+                  {comments.map((comment, index) => (
+                    <p key={index}>
+                      <strong>{comment.user}:</strong> {comment.text}
+                    </p>
+                  ))}
+                </div>
+                <textarea
+                  placeholder="Add a comment..."
+                  className={styles.textarea}
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                />
+                <button
+                  onClick={handleAddComment}
+                  className={styles.submitCommentButton}
+                >
+                  Submit
+                </button>
+                <button
+                  onClick={() => setShowModal(false)}
+                  className={styles.closeModalButton}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+        <div className={styles.castCarousel}>
+          <h3>Elenco</h3>
+          <div className={styles.carousel}>
+            {cast.map((actor) => (
+              <div key={actor.id} className={styles.castCard}>
+                <img
+                  src={
+                    actor.profile_path
+                      ? `${imageBaseUrl}${actor.profile_path}`
+                      : "default_image.jpg"
+                  }
+                  alt={actor.name}
+                  className={styles.castImage}
+                />
+                <p>{actor.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className={styles.similarMoviesSection}>
+          <h3>Similar Movies</h3>
+          <div className={styles.carousel}>
+            {similarMovies.length > 0 ? (
+              similarMovies.map((item) => (
+                <div key={item.id} className={styles.carouselItem}>
+                  <img
+                    src={`${imageBaseUrl}${item.poster_path}`}
+                    alt={item.title}
+                    className={styles.poster}
+                  />
+                  <p className={styles.title}>{item.title}</p>
+                  <p className={styles.score}>
+                    Score {item.vote_average.toFixed(1)}
+                  </p>
+                  <div className={styles.btns}>
+                    <button className={styles.iconBtn} title="Favoritos">
+                      <img src={Favoritos} alt="Favoritos" />
+                    </button>
+                    <Link to={`/details/${item.id}`}>
+                      <button
+                        className={styles.textBtn}
+                        title="Detalhes"
+                        onClick={() => setSelectedMovieId(item.id)}
+                      >
+                        More
+                      </button>
+                    </Link>
+                    <button className={styles.iconBtn} title="Assistidos">
+                      <img src={Eye} alt="Assistidos" />
+                    </button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No similar movies found.</p>
+            )}
+          </div>
+        </div>
       </div>
       <Footer />
     </>

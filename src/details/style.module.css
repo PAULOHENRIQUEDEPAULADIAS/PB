@@ -1,0 +1,288 @@
+.detailsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .poster {
+    width: 100%;
+    max-width: fit-content;
+    height: fit-content;
+    max-height: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+
+  .infoContainer {
+    max-width: 600px;
+    text-align: left;
+    margin-top: 20px;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .overview {
+    color: #444;
+    margin-bottom: 15px;
+  }
+  
+  .releaseDate,
+  .genres,
+  .rating,
+  .runtime {
+    color: #666;
+    margin-bottom: 8px;
+  }
+  
+  .trailerButton,
+  .goBackButton {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  .trailerButton {
+    background-color: #007bff;
+    color: white;
+    margin-right: 10px;
+  }
+  
+  .goBackButton {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  .errorContainer,
+  .loadingContainer {
+    text-align: center;
+    padding: 50px;
+  }
+  
+  .errorMessage {
+    color: red;
+    font-size: 18px;
+  }
+  
+  .loadingMessage {
+    font-size: 18px;
+    color: #555;
+    height: 100vh;
+  }
+  
+  .commentsSection {
+    width: 100%;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .commentBox {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .addCommentButton,
+  .trailerButton,
+.viewCommentsButton {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+  }
+  
+  .modalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 500px;
+    max-height: 80%;
+    overflow-y: auto;
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .textarea {
+    width: 100%;
+    height: 80px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .submitCommentButton,
+  .closeModalButton {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 2px;
+    transition: background-color 0.3s;
+  }
+  
+  .submitCommentButton:hover,
+  .closeModalButton:hover {
+    background-color: #0056b3;
+  }
+
+  .castCarousel{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .castContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    
+  }
+
+  .castCard {
+    text-align: center;
+    width: 120px; 
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .castImage {
+    width: 100%;
+    height: 180px; 
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .castName {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .carousel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+
+    overflow-x: auto;
+    padding: 15px 0;
+    width: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;  
+  }
+  
+
+  
+  .title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 10px 0;
+  }
+
+  
+  .score {
+    font-size: 16px;
+    color: #555;
+    margin: 10px 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+  
+  .btns {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+  }
+  
+  .btns > button,
+  .btns > a > button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--btn-bg);
+    color: white;
+    border: none;
+    border-radius: var(--btn-radius);
+    padding: var(--btn-padding);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex-shrink: 0;
+  }
+  
+  .btns > button:hover,
+  .btns > a > button:hover {
+    background-color: var(--btn-bg-hover);
+  }
+  
+  .textBtn {
+    padding: var(--btn-padding);
+  }
+  
+  .iconBtn {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+  }
+  
+  .iconBtn img {
+    width: var(--icon-size);
+    height: var(--icon-size);
+  }
+  
+.carouselItem {
+    flex: 0 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 220px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 15px;
+  }
+  
+  .carouselItem:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+  }
