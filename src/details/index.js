@@ -4,6 +4,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import Nav from "../navbar";
 import Footer from "../footer";
 import styles from "./style.module.css";
+import Home from "../home/App.js";
 
 import Favoritos from "../img/heart.svg";
 import Eye from "../img/eye.svg";
@@ -27,7 +28,9 @@ export default function Details() {
   const [data, setData] = useState([]);
   const [selectedMovieId, setSelectedMovieId] = useState(null);
 
-  
+  const goToHome = () => {
+    navigate("/"); 
+  };
 
   const handleAddComment = () => {
     if (newComment.trim()) {
@@ -101,7 +104,7 @@ export default function Details() {
           }
         );
         const result = await response.json();
-      
+
         setSimilarMovies(result.results.slice(0, 5));
       } catch (error) {
         console.error("Error fetching similar movies:", error);
@@ -111,13 +114,14 @@ export default function Details() {
     fetchSimilarMovies();
   }, [id]);
 
-
   if (error) {
     return (
       <div className={styles.errorContainer}>
         <Nav />
         <p className={styles.errorMessage}>Error: {error}</p>
-        <button onClick={() => navigate(-1)} className={styles.goBackButton}>
+        <button
+          onClick={goToHome} className={styles.goBackButton}
+        >
           Go Back
         </button>
         <Footer />
@@ -176,7 +180,7 @@ export default function Details() {
           >
             Watch Trailer on YouTube
           </a>
-          <button onClick={() => navigate(-1)} className={styles.goBackButton}>
+          <button onClick={(goToHome)} className={styles.goBackButton}>
             Go Back
           </button>
         </div>
