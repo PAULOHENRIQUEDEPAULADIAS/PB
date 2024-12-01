@@ -5,6 +5,7 @@ import Nav from "../navbar";
 import Footer from "../footer";
 import styles from "./style.module.css";
 import Home from "../home/App.js";
+import MovieCard from "../card/card.jsx";
 
 import Favoritos from "../img/heart.svg";
 import Eye from "../img/eye.svg";
@@ -114,6 +115,10 @@ export default function Details() {
     fetchSimilarMovies();
   }, [id]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
   if (error) {
     return (
       <div className={styles.errorContainer}>
@@ -139,6 +144,10 @@ export default function Details() {
     );
   }
 
+  const handleMoreClick = (id) => {
+    navigate(`/details/${id}`);
+  };
+  
   return (
     <>
       <Nav />
@@ -261,35 +270,13 @@ export default function Details() {
           <div className={styles.carousel}>
             {similarMovies.length > 0 ? (
               similarMovies.map((item) => (
-                <div key={item.id} className={styles.carouselItem}>
-                  <img
-                    src={`${imageBaseUrl}${item.poster_path}`}
-                    alt={item.title}
-                    className={styles.poster}
+                  <MovieCard
+                    key={item.id}
+                    movie={item}
+                    onMoreClick={handleMoreClick}
+                    imageBaseUrl={imageBaseUrl}
                   />
-                  <p className={styles.title}>{item.title}</p>
-                  <p className={styles.score}>
-                    Score {item.vote_average.toFixed(1)}
-                  </p>
-                  <div className={styles.btns}>
-                    <button className={styles.iconBtn} title="Favoritos">
-                      <img src={Favoritos} alt="Favoritos" />
-                    </button>
-                    <Link to={`/details/${item.id}`}>
-                      <button
-                        className={styles.textBtn}
-                        title="Detalhes"
-                        onClick={() => setSelectedMovieId(item.id)}
-                      >
-                        More
-                      </button>
-                    </Link>
-                    <button className={styles.iconBtn} title="Assistidos">
-                      <img src={Eye} alt="Assistidos" />
-                    </button>
-                  </div>
-                </div>
-              ))
+                ))
             ) : (
               <p>No similar movies found.</p>
             )}

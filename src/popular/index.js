@@ -36,7 +36,7 @@ export default function Popular() {
 
   return (
     <div className={style.app}>
-      <h1>Populares</h1>
+      <h1>Popular</h1>
       <div className={style.popularContainer}>
         <div className={style.popular}>
           {data.map((item) => (

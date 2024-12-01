@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import MovieCard from "../card/card.jsx"; // Importando o novo componente
 import style from "./style.module.css";
-
-import Favoritos from "../img/heart.svg";
-import Eye from "../img/eye.svg";
 
 const privateKey = process.env.REACT_APP_PRIVATE_API_KEY;
 
 export default function OnTheater() {
   const [data, setData] = useState([]);
-  const [selectedMovieId, setSelectedMovieId] = useState(null); 
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
   const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
 
   const fetchData = async () => {
@@ -41,9 +39,14 @@ export default function OnTheater() {
     fetchData();
   }, []);
 
+  const handleMoreClick = (id) => {
+    setSelectedMovieId(id);
+    console.log(`Selected movie ID: ${id}`);
+  };
+
   return (
     <div className={style.app}>
-      <h1>Em cartaz</h1>
+      <h1>On Cinema</h1>
       <div className={style.carouselContainer}>
         <button
           className={style.scrollButton}
@@ -53,35 +56,12 @@ export default function OnTheater() {
         </button>
         <div className={style.carousel}>
           {data.map((item) => (
-            <div key={item.id} className={style.carouselItem}>
-              <img
-                src={`${imageBaseUrl}${item.poster_path}`}
-                alt={item.title}
-                className={style.poster}
-              />
-              <p className={style.title}>{item.title}</p>
-              <p className={style.score}>
-                Score {item.vote_average.toFixed(1)}
-              </p>
-              <div className={style.btns}>
-                <button className={style.iconBtn} title="Favoritos">
-                  <img src={Favoritos} alt="Favoritos" />
-                </button>
-                <Link to={`/details/${item.id}`}>
-                  <button
-                    className={style.textBtn}
-                    title="Detalhes"
-                    onClick={() => setSelectedMovieId(item.id)}
-                  >
-                    More
-                  </button>
-                </Link>
-
-                <button className={style.iconBtn} title="Assistidos">
-                  <img src={Eye} alt="Assistidos" />
-                </button>
-              </div>
-            </div>
+            <MovieCard
+              key={item.id}
+              movie={item}
+              onMoreClick={handleMoreClick}
+              imageBaseUrl={imageBaseUrl}
+            />
           ))}
         </div>
         <button
