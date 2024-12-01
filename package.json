@@ -5,7 +5,7 @@
   "keywords": [],
   "main": "src/index.tsx",
   "dependencies": {
-    "react": "^18.3.1",
+    "react": "file:",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.27.0",
     "react-scripts": "^5.0.0"
