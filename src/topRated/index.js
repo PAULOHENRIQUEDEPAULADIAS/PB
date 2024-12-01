@@ -4,12 +4,15 @@ import style from "./style.module.css";
 
 import Favoritos from "../img/heart.svg";
 import Eye from "../img/eye.svg";
+import MovieCard from "../card/card.jsx";
 
 const privateKey = process.env.REACT_APP_PRIVATE_API_KEY;
 
 export default function OnTheater() {
   const [data, setData] = useState([]);
   const imageBaseUrl = "https://image.tmdb.org/t/p/w500";
+
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
 
   const fetchData = async () => {
     try {
@@ -40,6 +43,11 @@ export default function OnTheater() {
     fetchData();
   }, []);
 
+  const handleMoreClick = (id) => {
+    setSelectedMovieId(id);
+    console.log(`Selected movie ID: ${id}`);
+  };
+
   return (
     <div className={style.app}>
       <h1>Top Rated 8.5+</h1>
@@ -52,33 +60,12 @@ export default function OnTheater() {
         </button>
         <div className={style.carousel}>
           {data.map((item) => (
-            <div key={item.id} className={style.carouselItem}>
-              <img
-                src={`${imageBaseUrl}${item.poster_path}`}
-                alt={item.title}
-                className={style.poster}
-              />
-              <p className={style.title}>{item.title}</p>
-              <p className={style.score}>
-                Score {item.vote_average.toFixed(1)}
-              </p>
-              <div className={style.btns}>
-                <button className={style.iconBtn} title="Favoritos">
-                  <img src={Favoritos} alt="Favoritos" />
-                </button>
-
-                {/* Link dinâmico com ID do filme */}
-                <Link to={`/details/${item.id}`}>
-                  <button className={style.textBtn} title="Detalhes">
-                    More
-                  </button>
-                </Link>
-
-                <button className={style.iconBtn} title="Assistidos">
-                  <img src={Eye} alt="Assistidos" />
-                </button>
-              </div>
-            </div>
+            <MovieCard
+              key={item.id}
+              movie={item}
+              onMoreClick={handleMoreClick}
+              imageBaseUrl={imageBaseUrl}
+            />
           ))}
         </div>
         <button

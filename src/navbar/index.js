@@ -8,7 +8,8 @@ import Heart from "../img/heart.svg";
 import Logo from "../img/logo.png";
 import backgroundImage from "../img/backgroundmenu.jpg";
 
-const privateKey = process.env.REACT_APP_PRIVATE_API_KEY;
+import MovieCard from "../card/card.jsx";
+import { useMovies } from "../context/moviecontext";
 
 export default function Nav() {
   const [showModal, setShowModal] = useState(false);
@@ -19,6 +20,8 @@ export default function Nav() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+
+  const { watched, favorites } = useMovies();
 
   const handleIconClick = (content) => {
     setModalContent(content);
@@ -106,7 +109,7 @@ export default function Nav() {
           height: "100%",
         }}
       >
-        <img src={Logo} className={style.logo}></img>
+        <img src={Logo} className={style.logo} alt="Logo" />
 
         <ul className={style.list}>
           <li
@@ -165,15 +168,42 @@ export default function Nav() {
                 ? "Favoritos"
                 : "Perfil"}
             </h2>
-            <p>Conteúdo do {modalContent} aqui.</p>
 
             {modalContent === "assistidos" && (
-              <h1>Fazer maps para os selecionados dos Assistidos </h1>
+              <div className={style.movieList}>
+                {watched.length > 0 ? (
+                  watched.map((movie) => (
+                    <MovieCard
+                      key={movie.id}
+                      movie={movie}
+                      imageBaseUrl="https://image.tmdb.org/t/p/w500"
+                      onMoreClick={() => {}}
+                    />
+                  ))
+                ) : (
+                  <p>Você ainda não adicionou filmes assistidos.</p>
+                )}
+              </div>
             )}
+
             {modalContent === "favoritos" && (
-              <h1>Fazer maps para os selecionados dos Favoritos </h1>
+              <div className={style.movieList}>
+                {favorites.length > 0 ? (
+                  favorites.map((movie) => (
+                    <MovieCard
+                      key={movie.id}
+                      movie={movie}
+                      imageBaseUrl="https://image.tmdb.org/t/p/w500"
+                      onMoreClick={() => {}}
+                    />
+                  ))
+                ) : (
+                  <p>Você ainda não adicionou filmes favoritos.</p>
+                )}
+              </div>
             )}
-            {modalContent === "perfil" && (
+
+{modalContent === "perfil" && (
               <div>
                 <div className={style.authContainer}>
                   <h3>{isLogin ? "Login" : "Cadastro"}</h3>

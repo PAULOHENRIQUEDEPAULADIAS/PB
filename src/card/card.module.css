@@ -87,3 +87,13 @@ a {
   width: var(--icon-size);
   height: var(--icon-size);
 }
+
+.iconBtn.active {
+  background-color: #f39c12; 
+  border-radius: 50%;
+  transform: scale(1.1); 
+}
+
+.iconBtn.active img {
+  filter: brightness(0) invert(1);
+}
