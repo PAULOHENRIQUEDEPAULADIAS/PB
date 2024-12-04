@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import style from "./style.module.css";
 
-import Favoritos from "../img/heart.svg";
-import Eye from "../img/eye.svg";
 import MovieCard from "../card/card.jsx";
 
 const privateKey = process.env.REACT_APP_PRIVATE_API_KEY;

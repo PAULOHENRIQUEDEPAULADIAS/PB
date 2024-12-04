@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import Nav from "../navbar";
 import Footer from "../footer";
 import styles from "./style.module.css";
-import Home from "../home/App.js";
 import MovieCard from "../card/card.jsx";
-
-import Favoritos from "../img/heart.svg";
-import Eye from "../img/eye.svg";
 
 const privateKey = process.env.REACT_APP_PRIVATE_API_KEY;
 const imageBaseUrl = "https://image.tmdb.org/t/p/w500";

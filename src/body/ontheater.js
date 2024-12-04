@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import MovieCard from "../card/card.jsx"; // Importando o novo componente
+import MovieCard from "../card/card.jsx";
 import style from "./style.module.css";
 
 const privateKey = process.env.REACT_APP_PRIVATE_API_KEY;
