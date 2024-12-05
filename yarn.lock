@@ -7674,13 +7674,12 @@ react-scripts@^5.0.0:
   optionalDependencies:
     fsevents "^2.3.2"
 
-"react@file:.":
-  version "1.0.0"
+react@^18.3.1:
+  version "18.3.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-18.3.1.tgz#49ab892009c53933625bd16b2533fc754cab2891"
+  integrity sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==
   dependencies:
-    react "file:../../../AppData/Local/Yarn/Cache/v6/npm-react-1.0.0-48d02c1d-8885-44f0-ba6a-1e74ab5c4eee-1733356775675/node_modules/react"
-    react-dom "^18.3.1"
-    react-router-dom "^6.27.0"
-    react-scripts "^5.0.0"
+    loose-envify "^1.1.0"
 
 read-cache@^1.0.0:
   version "1.0.0"
